@@ -1,0 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,400;1,200&display=swap");
+
+html{
+    font-family: "Titillium Web", sans-serif;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: mediumaquamarine;
+}
+
+button {
+    border: none;
+    background-color: #2E9CCA;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 0;
+    font-weight: bold;
+    padding: 1vw;
+    width: 30%;
+}
+
+header {
+    display: flex;
+    background-color: #6568aa;
+    justify-content: center;
+}
+
+header img {
+    height: 5vw;
+    width: auto;
+}
+
+header span {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: black;
+}
+
+header div {
+    display: flex;
+    align-items: center; /* This will vertically align the child elements */
+}
