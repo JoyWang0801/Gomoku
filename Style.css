@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,400;1,200&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&display=swap');
 
 html{
     font-family: "Titillium Web", sans-serif;
@@ -22,17 +23,20 @@ button {
     border-radius: 0;
     font-weight: bold;
     padding: 1vw;
-    width: 30%;
+    width: auto;
+    height: 5vw;
 }
+
 
 header {
     display: flex;
     background-color: #6568aa;
-    justify-content: center;
+    height: 4vw;
+    justify-content: space-evenly;
 }
 
 header img {
-    height: 5vw;
+    height: 4vw;
     width: auto;
 }
 
@@ -40,10 +44,144 @@ header span {
     display: flex;
     align-items: center;
     font-weight: bold;
+    font-size: 3vw;
     color: black;
 }
 
 header div {
     display: flex;
     align-items: center; /* This will vertically align the child elements */
+}
+
+main{
+    position: relative;
+    height: 100%;
+}
+
+.bg_img{
+    width: 100%;
+    display: block;
+}
+
+.gaming-area {
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    position: absolute;
+    top:1vh;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+.player{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    position: relative;
+}
+
+.player button{
+    width: auto;
+    height: auto;
+    margin-top: 3vw;
+    margin-bottom: 3vw;
+}
+
+.circle{
+    border-radius: 50%;
+}
+
+.character{
+    color: snow;
+    border-radius: 50%;
+    display: inline-block;
+    padding: 0;
+    vertical-align: top;
+    height: 5vw;
+    width: 5vw;
+    transition: transform 0.7s ease-in-out;
+}
+
+button.character:hover {
+    transform: rotate(360deg);
+}
+
+.countdown{
+    font-family: 'Teko', sans-serif;
+    font-size: 5vw;
+    color: #001bfe;
+}
+
+.crown{
+    position: absolute;
+    transform: rotate(45deg);
+    z-index: 2;
+    height: 5vw;
+    width: 5vw;
+    top:7vw;
+    left: 4vw;
+}
+
+.game-board{
+    height: 40vw;
+    width: auto;
+}
+
+.board-area{
+    position: relative;
+}
+
+.game-score{
+    position: absolute;
+    top: 0;
+    left: 47%;
+    justify-content: center;
+    font-family: 'Teko', sans-serif;
+    font-size: 5vw;
+}
+
+.select{
+    position: absolute;
+    height: 4%;
+    width:4%;
+    z-index: 3;
+    left: 18em;
+    top:18em;
+}
+
+.piece{
+    position: absolute;
+    height: 5%;
+    width: 5%;
+    z-index: 3;
+}
+
+.white{
+    left: 283px;
+    top: 283px;
+}
+
+.black{
+    left: 588px;
+    top: 283px;
+}
+
+.ready{
+    background-color: red;
+}
+
+.select-color{
+    width: 5vw;
+    height: 5vw;
+    align-items: center;
+}
+
+.select-color img{
+    height: 3vw;
+    width: 3vw;
 }
