@@ -12,12 +12,12 @@ html{
 }
 
 body {
-    background-color: mediumaquamarine;
+    background-color: #1f2023;
 }
 
 button {
     border: none;
-    background-color: #2E9CCA;
+    background-color: #028ff4;
     color: #fff;
     cursor: pointer;
     border-radius: 0;
@@ -50,7 +50,7 @@ header span {
 
 header div {
     display: flex;
-    align-items: center; /* This will vertically align the child elements */
+    align-items: center;
 }
 
 main{
@@ -60,7 +60,12 @@ main{
 
 .bg_img{
     width: 100%;
+    height: 100%;
     display: block;
+}
+
+.mobile{
+    display: none;
 }
 
 .gaming-area {
@@ -130,9 +135,10 @@ button.character:hover {
 .game-board{
     height: 40vw;
     width: auto;
+    display: block;
 }
 
-.board-area{
+#board-area{
     position: relative;
 }
 
@@ -150,8 +156,8 @@ button.character:hover {
     height: 4%;
     width:4%;
     z-index: 3;
-    left: 18em;
-    top:18em;
+    left: 52%;
+    top:46%;
 }
 
 .piece{
@@ -162,13 +168,13 @@ button.character:hover {
 }
 
 .white{
-    left: 283px;
-    top: 283px;
+    left: 51%;
+    top: 45%;
 }
 
 .black{
-    left: 588px;
-    top: 283px;
+    left: 82%;
+    top: 46%;
 }
 
 .ready{
@@ -184,4 +190,76 @@ button.character:hover {
 .select-color img{
     height: 3vw;
     width: 3vw;
+}
+
+@media only screen and (max-width: 680px) {
+    header {
+        height: 5vh;
+    }
+
+    header img {
+        height: 5vh;
+    }
+
+    header span {
+        font-size: 6vw;
+    }
+
+    .mobile{
+        display: block;
+    }
+    .desktop{
+        display: none;
+    }
+
+    .bg_img{
+        height: 100%;
+        width: 100%;
+    }
+
+    .game-score{
+        top: 43%;
+        left: 5%;
+        writing-mode: vertical-rl;
+        text-orientation: upright;
+    }
+
+    .gaming-area {
+        flex-direction: column;
+        justify-content: center;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .player{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        position: relative;
+    }
+
+    .player button{
+        margin: 0 0 0 6vw;
+    }
+
+    .game-board{
+        height: 75vw;
+        width: auto;
+        display: block;
+        margin-top: 5vw;
+        margin-bottom: 5vw;
+    }
+
+    .crown{
+        position: absolute;
+        transform: rotate(45deg);
+        z-index: 2;
+        height: 5vw;
+        width: 5vw;
+        top:-2vw;
+        left: 15vw;
+    }
 }

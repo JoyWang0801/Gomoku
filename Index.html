@@ -4,23 +4,27 @@
     <meta charset="UTF-8">
     <title>SENG513 A2 Gomoku</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="main.js"></script>
     <link rel="icon" href="/Assets/img.png">
     <link rel="stylesheet" href="Style.css">
 </head>
 <body>
 <header>
+    <button class="Reset">Reset</button>
     <div>
         <img src="Assets/taiji.png" alt="yin yang logo">
         <span>WUZIQI</span>
     </div>
-    <button class="Reset">Start</button>
-    <button class="Reset">Reset</button>
     <button class="Reset">Clear Game Board</button>
 </header>
 <main>
-    <script src="main.js"></script>
-    <img src="Assets/background.jpg" class="bg_img" alt="back ground image">
-    <p class="game-score">3:2</p>
+    <div>
+        <img src="Assets/background.jpg" class="desktop bg_img" alt="desktop version back ground image">
+        <img src="Assets/mobile_resize.jpeg" class="mobile bg_img" alt="mobile version back ground image">
+    </div>
+    <div>
+        <p class="game-score">3:2</p>
+    </div>
     <div class="gaming-area">
         <div class="player" id="Player1">
             <p class="countdown">5:00</p>
@@ -30,9 +34,9 @@
             </button>
             <button class="action-button">withdraw</button>
             <button class="ready action-button" onclick="setReady(this)">ready</button>
-            <button class="select-color"><img src="Assets/white_cute.png" alt="white piece"></button>
+            <button class="select-color" onclick="changrePiece(this)"><img src="Assets/white_cute.png" alt="white piece"></button>
         </div>
-        <div class="board-area">
+        <div id="board-area" onmousemove="showCoords(event)">
             <img src="Assets/Gameboard.jpg" alt="game board" class="game-board">
             <img src="Assets/select.png" alt="square" class="select">
             <img src="Assets/black.png" alt="black piece" class="piece black">
@@ -46,7 +50,7 @@
             </button>
             <button class="withdraw">withdraw</button>
             <button class="ready" onclick="setReady(this)">ready</button>
-            <button class="select-color"><img src="Assets/black_cute.png" alt="white piece"></button>
+            <button class="select-color" onclick="changrePiece(this)"><img src="Assets/black_cute.png" alt="white piece"></button>
         </div>
     </div>
 </main>
