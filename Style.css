@@ -136,13 +136,14 @@ button.character:hover {
     height: 40vw;
     width: auto;
     display: block;
+    z-index: 1;
 }
 
 #board-area{
     position: relative;
 }
 
-.game-score{
+#game-score{
     position: absolute;
     top: 0;
     left: 47%;
@@ -192,6 +193,46 @@ button.character:hover {
     width: 3vw;
 }
 
+.display-middle{
+    position: absolute;
+    top: 30%;
+    left: 30%;
+}
+
+.display-middle span{
+    position: absolute;
+    font-weight: bold;
+    top: 0;
+    left: 25vw;
+    font-size: 15vw;
+    color: #ffc200;
+    z-index: 4;
+}
+
+.winner{
+    display: none;
+}
+
+#gamestart-countdown{
+    position: absolute;
+    z-index: 4;
+    font-size: 15vw;
+    left: 13vw;
+    color: red;
+    top: 0;
+}
+
+#winner-character{
+    position: absolute;
+    color: snow;
+    border-radius: 50%;
+    padding: 0;
+    vertical-align: top;
+    height: 20vw;
+    width: 20vw;
+    z-index: 4;
+}
+
 @media only screen and (max-width: 680px) {
     header {
         height: 5vh;
@@ -217,7 +258,7 @@ button.character:hover {
         width: 100%;
     }
 
-    .game-score{
+    #game-score{
         top: 43%;
         left: 5%;
         writing-mode: vertical-rl;

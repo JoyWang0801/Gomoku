@@ -5,17 +5,19 @@
     <title>SENG513 A2 Gomoku</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="main.js"></script>
+    <script src="buttonHandle.js"></script>
     <link rel="icon" href="/Assets/img.png">
     <link rel="stylesheet" href="Style.css">
 </head>
 <body>
 <header>
-    <button class="Reset">Reset</button>
     <div>
         <img src="Assets/taiji.png" alt="yin yang logo">
         <span>WUZIQI</span>
     </div>
-    <button class="Reset">Clear Game Board</button>
+    <button class="Reset" onclick="reset()">Reset</button>
+    <button class="clear-board" onclick="clearBoard()">Clear Game Board</button>
+    <button id="game-mode" onclick="changeGamemode()">Gamemode: BO1</button>
 </header>
 <main>
     <div>
@@ -23,11 +25,18 @@
         <img src="Assets/mobile_resize.jpeg" class="mobile bg_img" alt="mobile version back ground image">
     </div>
     <div>
-        <p class="game-score">3:2</p>
+        <p id="game-score">3:2</p>
+    </div>
+    <div class="display-middle">
+        <p id="gamestart-countdown" class="countdown">3</p>
+        <div class="winner">
+            <img src="Assets/Character1.jpg" alt="winner character image" id="winner-character">
+            <span>WIN!</span>
+        </div>
     </div>
     <div class="gaming-area">
-        <div class="player" id="Player1">
-            <p class="countdown">5:00</p>
+        <div class="player" id="PlayerA">
+            <p class="countdown">0:05</p>
             <img src="Assets/crown.png" alt="crown" class="crown">
             <button id="character1" class="character" onclick="changeCharacterImage(this)">
                 <img src="Assets/Character1.jpg" class="character circle" alt="User A Character">
@@ -44,8 +53,8 @@
                 <img src="Assets/white.png" alt="white piece" class="piece white">
             </div>
         </div>
-        <div class="player" id="Player2">
-            <p class="countdown">5:00</p>
+        <div class="player" id="PlayerB">
+            <p class="countdown">0:03</p>
             <img src="Assets/crown.png" alt="crown" class="crown">
             <button id="character2" class="character" onclick="changeCharacterImage(this)">
                 <img src="Assets/Character2.jpg" class="character circle" alt="User A Character">
