@@ -45,7 +45,7 @@ const gameSetting =
 let gameBoard;
 
 (function () {
-    let gameBoardList = function() {
+    var gameBoardList = function() {
         let arr = [];
         for(let i = 0; i < gameSetting.height; i++) {
             arr.push(new Array(gameSetting.width).fill(0));
@@ -59,14 +59,6 @@ let gameBoard;
 //copied and pasted this algorithm to get mouse position from the following link:
 //https://stackoverflow.com/questions/3234256/find-mouse-position-relative-to-element/42111623#42111623
 function getCoords(event) {
-
-    const selectTarget = document.getElementById("select");
-    if(selectTarget == null)
-    {
-
-
-    }
-
     const rect = document.getElementById("game-board").getBoundingClientRect();
     let x = event.clientX - rect.left; //x position within the element.
     let y = event.clientY - rect.top;  //y position within the element.
@@ -75,10 +67,11 @@ function getCoords(event) {
     let rect_height = rect.bottom - rect.top;
     let x_perc = Math.round(x / rect_width * 100);
     let y_perc = Math.round(y / rect_height * 100);
-    console.log(`Left: ${x_perc}% ; Top: ${y} or ${y_perc}%.`);
+    //console.log(`Left: ${x_perc}% ; Top: ${y} or ${y_perc}%.`);
 
     [userMovement.posX, userMovement.posY] = calculatePiecePosition(x_perc,y_perc);
 
+    const selectTarget = document.getElementById("select");
     selectTarget.style.left = userMovement.posX+"%";
     selectTarget.style.top = userMovement.posY+"%";
 }
@@ -95,7 +88,7 @@ function calculatePiecePosition(x, y)
     if(new_x < 1){new_x = 1;}
     if(new_y < 1){new_y = 1;}
 
-    console.log(`${new_x}, ${new_y}`)
+    //console.log(`${new_x}, ${new_y}`)
     userMovement.indexX = new_x;
     userMovement.indexY = new_y;
 
@@ -124,22 +117,28 @@ function takeStep()
     let posX = userMovement.indexX - 1;
     let posY = userMovement.indexY - 1;
 
-    console.log(gameBoard);
+    //console.log(gameBoard);
 
     if(gameBoard[posY][posX] == 0 || gameBoard[posY][posX] == null)
     {
         placePieceUI(playerTeam, playerIcon, posY, posX);
-        console.log(posX, posY)
+        //console.log(posX, posY)
         gameBoard[posY][posX] = playerTeam === "black" ? 1 : 2;
         userMovement.current_mover.lastMove = {posX, posY}
         if(checkAlign(posX, posY))
         {
             userMovement.current_mover.win++;
+            updateGameScore(UserA.win, UserB.win)
             gameSetting.status = gameStatusEnum.pause;
         }
     }
 
     switchRole();
+}
+
+function updateGameScore(a, b)
+{
+    document.getElementById("game-score").innerHTML = `${a}:${b}`
 }
 
 function placePieceUI(playerTeam, playerIcon, x, y)
@@ -164,7 +163,7 @@ function checkAlign(x, y)
             newX = x + i;
             newY = y + j;
 
-            if(newX === x && newY == y){continue;}
+            if((newX === x && newY == y) || newX == gameSetting.width - 1 || newY == gameSetting.height - 1){continue;}
             if(gameBoard[newY][newX] == currentColour)
             {
                 // if five align return true
@@ -288,8 +287,7 @@ function changeTeam(button_element)
 
 function setReady(button_element)
 {
-    const characterId = button_element.parentElement.id;
-    console.log(characterId);
+    const characterId = button_element.parentElement.id
     if (characterId === "PlayerA") {
         if(!UserA.ready)
         {
@@ -331,7 +329,6 @@ function setReady(button_element)
                         cd.style.left = "5vw";
 
                     }
-                    console.log(`width: ${gameSetting.mobile}`);
                     break;
                 case "1":
                     cd.style.color= "green";
@@ -345,7 +342,6 @@ function setReady(button_element)
                     userMovementCountdown();
                     break;
             }
-            console.log(cd.innerHTML)
         }, 1000);
     }
 }
@@ -396,8 +392,11 @@ function clearBoard()
 {
     let pieces = document.getElementById("all-pieces")
     pieces.innerHTML = ' ';
-    let select = document.getElementById("select");
-    select.remove();
+    for(let i = 0; i < gameBoard.length; i++)
+    {
+        gameBoard[i] = Array(gameSetting.width).fill(0);
+    }
+    userMovement.current_mover = UserB.team === "black" ? UserB : UserA;
 }
 
 function reset()
