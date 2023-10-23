@@ -151,7 +151,7 @@ button.character:hover {
     font-size: 5vw;
 }
 
-.select{
+#select{
     position: absolute;
     height: 4%;
     width:4%;

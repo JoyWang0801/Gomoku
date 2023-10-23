@@ -29,28 +29,30 @@
         <div class="player" id="Player1">
             <p class="countdown">5:00</p>
             <img src="Assets/crown.png" alt="crown" class="crown">
-            <button id="character1" class="character" onclick="changeImage(this)">
+            <button id="character1" class="character" onclick="changeCharacterImage(this)">
                 <img src="Assets/Character1.jpg" class="character circle" alt="User A Character">
             </button>
             <button class="action-button">withdraw</button>
             <button class="ready action-button" onclick="setReady(this)">ready</button>
-            <button class="select-color" onclick="changrePiece(this)"><img src="Assets/white_cute.png" alt="white piece"></button>
+            <button class="select-color" onclick="changeTeam(this)"><img src="Assets/white_cute.png" alt="white piece"></button>
         </div>
-        <div id="board-area" onmousemove="showCoords(event)">
+        <div id="board-area" onmousemove="getCoords(event)" onclick="takeStep()">
             <img src="Assets/Gameboard.jpg" alt="game board" class="game-board">
-            <img src="Assets/select.png" alt="square" class="select">
-            <img src="Assets/black.png" alt="black piece" class="piece black">
-            <img src="Assets/white.png" alt="white piece" class="piece white">
+            <img src="Assets/select.png" alt="square" id="select">
+            <div id="all-pieces">
+                <img src="Assets/black.png" alt="black piece" class="piece black">
+                <img src="Assets/white.png" alt="white piece" class="piece white">
+            </div>
         </div>
         <div class="player" id="Player2">
             <p class="countdown">5:00</p>
             <img src="Assets/crown.png" alt="crown" class="crown">
-            <button id="character2" class="character" onclick="changeImage(this)">
+            <button id="character2" class="character" onclick="changeCharacterImage(this)">
                 <img src="Assets/Character2.jpg" class="character circle" alt="User A Character">
             </button>
             <button class="withdraw">withdraw</button>
             <button class="ready" onclick="setReady(this)">ready</button>
-            <button class="select-color" onclick="changrePiece(this)"><img src="Assets/black_cute.png" alt="white piece"></button>
+            <button class="select-color" onclick="changeTeam(this)"><img src="Assets/black_cute.png" alt="white piece"></button>
         </div>
     </div>
 </main>
