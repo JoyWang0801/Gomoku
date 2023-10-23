@@ -16,7 +16,6 @@ gameSetting: width, heigh, mode, mobile
 gameStatus: pause, going, end
 gameBoard[gameSetting.width][gameSetting.heigh]
 
-
 /*
 * This is an event listener, get pouse position when cursor hover game board
 *
