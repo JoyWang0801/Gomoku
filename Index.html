@@ -11,7 +11,6 @@
     <title>SENG513 A2 Wuziqi</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="main.js"></script>
-    <script src="buttonHandle.js"></script>
     <link rel="icon" href="/Assets/img.png">
     <link rel="stylesheet" href="Style.css">
 </head>
@@ -52,7 +51,7 @@
             <button class="select-color" onclick="changeTeam(this)"><img src="Assets/white_cute.png" alt="white piece"></button>
         </div>
         <div id="board-area" onmousemove="getCoords(event)" onclick="takeStep()">
-            <img src="Assets/Gameboard.jpg" alt="game board" class="game-board">
+            <img src="Assets/Gameboard.jpg" alt="game board" id="game-board">
             <img src="Assets/select.png" alt="square" id="select">
             <div id="all-pieces">
                 <img src="Assets/black.png" alt="black piece" class="piece black">

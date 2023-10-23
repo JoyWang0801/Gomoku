@@ -138,7 +138,7 @@ button.character:hover {
     left: 4vw;
 }
 
-.game-board{
+#game-board{
     height: 40vw;
     width: auto;
     display: block;
@@ -160,28 +160,28 @@ button.character:hover {
 
 #select{
     position: absolute;
-    height: 4%;
-    width:4%;
+    height: 6%;
+    width:6%;
     z-index: 3;
     left: 52%;
-    top:46%;
+    top: 46%;
 }
 
 .piece{
     position: absolute;
-    height: 5%;
-    width: 5%;
+    height: 8%;
+    width: 8%;
     z-index: 3;
 }
 
 .white{
-    left: 51%;
-    top: 45%;
+    left: 44%;
+    top: 50%;
 }
 
 .black{
-    left: 82%;
-    top: 46%;
+    left: 20%;
+    top: 50%;
 }
 
 .ready{
@@ -203,6 +203,7 @@ button.character:hover {
     position: absolute;
     top: 30%;
     left: 30%;
+    display: none;
 }
 
 .display-middle span{
@@ -292,7 +293,7 @@ button.character:hover {
         margin: 0 0 0 6vw;
     }
 
-    .game-board{
+    #game-board{
         height: 75vw;
         width: auto;
         display: block;
