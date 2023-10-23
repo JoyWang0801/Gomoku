@@ -1,5 +1,9 @@
-// use to store playerA's character icon, piece color, number of winning round, readiness status and last piece coord
-// use to store playerA's character icon, piece color, number of winning round, readiness status and last piece coord
+/* Course: SENG 513 */
+/* Date: Oct 23, 2023 */
+/* Assignment 2 */
+/* Name: Joy Wang */
+/* UCID: 30201929 */
+
 // use to store playerA's character icon, piece color, number of winning round, readiness status and last piece coord
 UserA: icon, team, win, ready, lastMove
 // use to store playerB's character icon, piece color, number of winning round, readiness status and last piece coord
