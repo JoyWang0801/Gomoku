@@ -54,7 +54,7 @@ calculatePiecePosition(x, y)
 *       Add this newmove to the game board
 *       set position = userMovement.posX, userMovement.posY
 *       Add this move to the gameBoard[][]
-*       checkGameboard()
+*       checkAlign()
 *           player win the round
 *           user.win++
 *           if total round == gamemode
@@ -71,7 +71,32 @@ Check gameboard status based on last movement
 return true if aligned 5
 else return false
  */
-checkGameboard()
+checkAlign()
+
+/*
+Get two number input, to update new game score
+ */
+updateGameScore(a, b)
+
+
+/*
+takes in player team and x,y coordinates as input
+ create an element based on player's team, place it under "all-pieces" div put image at (x,y)
+ */
+placePieceUI(playerTeam, x, y)
+
+/*
+take x and y coordinate pass in
+go through surrounding 8 cells to see if any pieces are same colour
+if there is piece from the same team:
+    continueCheckAlign();
+ */
+checkSurround(x, y)
+
+/*
+    follow the direction to check if there are 5 in a row
+*/
+continueCheckAlign(x, y, deltaX, deltaY, currentColou)
 
 /*
  Implement a countdown timer for each player's move
@@ -113,6 +138,7 @@ changeGamemode()
 /*
 Remove all pieces from the game board UI
 and set gameboard list to all empty
+reset current mover to black colour user
  */
 clearBoard()
 

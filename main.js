@@ -101,39 +101,43 @@ function calculatePiecePosition(x, y)
 
 function takeStep()
 {
-    let playerTeam;
-    let playerIcon;
-    if(userMovement.current_mover === UserB)
+    if(gameSetting.status === gameStatusEnum.going)
     {
-         playerTeam = UserB.team;
-         playerIcon = UserB.icon;
-    }
-    else
-    {
-        playerTeam = UserA.team;
-        playerIcon = UserA.icon;
-    }
-
-    let posX = userMovement.indexX - 1;
-    let posY = userMovement.indexY - 1;
-
-    //console.log(gameBoard);
-
-    if(gameBoard[posY][posX] == 0 || gameBoard[posY][posX] == null)
-    {
-        placePieceUI(playerTeam, playerIcon, posY, posX);
-        //console.log(posX, posY)
-        gameBoard[posY][posX] = playerTeam === "black" ? 1 : 2;
-        userMovement.current_mover.lastMove = {posX, posY}
-        if(checkAlign(posX, posY))
+        let playerTeam;
+        let playerIcon;
+        if(userMovement.current_mover === UserB)
         {
-            userMovement.current_mover.win++;
-            updateGameScore(UserA.win, UserB.win)
-            gameSetting.status = gameStatusEnum.pause;
+             playerTeam = UserB.team;
+             playerIcon = UserB.icon;
         }
-    }
+        else
+        {
+            playerTeam = UserA.team;
+            playerIcon = UserA.icon;
+        }
 
-    switchRole();
+        let posX = userMovement.indexX - 1;
+        let posY = userMovement.indexY - 1;
+
+        //console.log(gameBoard);
+
+        if(gameBoard[posY][posX] == 0 || gameBoard[posY][posX] == null)
+        {
+            placePieceUI(playerTeam, posY, posX);
+            //console.log(posX, posY)
+            gameBoard[posY][posX] = playerTeam === "black" ? 1 : 2;
+            userMovement.current_mover.lastMove = {posX, posY}
+            if(checkSurround(posX, posY))
+            {
+                console.log("WIN A ROUND!");
+                userMovement.current_mover.win++;
+                updateGameScore(UserA.win, UserB.win)
+                gameSetting.status = gameStatusEnum.pause;
+            }
+        }
+
+        switchRole();
+    }
 }
 
 function updateGameScore(a, b)
@@ -141,7 +145,7 @@ function updateGameScore(a, b)
     document.getElementById("game-score").innerHTML = `${a}:${b}`
 }
 
-function placePieceUI(playerTeam, playerIcon, x, y)
+function placePieceUI(playerTeam, x, y)
 {
     let element = document.createElement("img");
     element.src = `Assets/${playerTeam}.png`
@@ -153,7 +157,7 @@ function placePieceUI(playerTeam, playerIcon, x, y)
     src.appendChild(element);
 }
 
-function checkAlign(x, y)
+function checkSurround(x, y)
 {
     let currentColour = userMovement.current_mover.team === "black" ? 1 : 2;
     for(let j = -1; j < 2; j++)
@@ -163,7 +167,18 @@ function checkAlign(x, y)
             newX = x + i;
             newY = y + j;
 
-            if((newX === x && newY == y) || newX == gameSetting.width - 1 || newY == gameSetting.height - 1){continue;}
+            console.log(x, y, newX, newY)
+
+            if((newX == x && newY == y)
+                || newX < 0
+                || newY < 0
+                || newX > gameSetting.width - 1
+                || newY > gameSetting.height - 1)
+            {
+                console.log("should continue");
+                continue;
+            }
+
             if(gameBoard[newY][newX] == currentColour)
             {
                 // if five align return true
@@ -179,15 +194,26 @@ function checkAlign(x, y)
 function continueCheckAlign(x, y, deltaX, deltaY, currentColour)
 {
     let count = 0
-    while(count <= 3 || gameBoard[y][x] == currentColour)
+    console.log(`Continue checking direction of ${deltaX}, ${deltaY}`)
+    while(count < 3 && gameBoard[y][x] == currentColour)
     {
-        if(gameBoard[y][x] != gameBoard[y + deltaY][x+deltaX])
+        let newX = x + deltaX;
+        let newY = y + deltaY;
+        if(newX < 0
+            || newY < 0
+            || newX >= gameSetting.width - 1
+            || newY >= gameSetting.height - 1)
         {
             return false;
         }
+        if(gameBoard[y][x] != gameBoard[newY][newX])
+        {
+            console.log(`${x},${y} Not same with ${newX} ${newY} 886 counted: ${count}!`)
+            return false;
+        }
         count++;
-        y = y + deltaY;
-        x = x + deltaX;
+        y = newY;
+        x = newX;
     }
 
     return true;
@@ -405,6 +431,24 @@ function reset()
     switchRole();
     document.getElementById("game-score").innerHTML = "0:0";
     clearBoard();
+}
+
+function withdrawPiece(button_element)
+{
+    const characterId = button_element.parentElement.id
+    if(gameSetting.status == gameStatusEnum.going)
+    {
+        if (characterId === "PlayerA") {
+
+        } else if (characterId === "PlayerB") {
+
+        }
+    }
+}
+
+function displayWInner()
+{
+    let winner = UserA.win > UserB.win ? UserA : UserB;
 }
 
 //TODO - organize algorithm
