@@ -1,3 +1,9 @@
+/* Course: SENG 513 */
+/* Date: Oct 23, 2023 */
+/* Assignment 2 */
+/* Name: Joy Wang */
+/* UCID: 30201929 */
+
 @import url("https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,400;1,200&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&display=swap');
 
@@ -216,10 +222,10 @@ button.character:hover {
 #gamestart-countdown{
     position: absolute;
     z-index: 4;
-    font-size: 15vw;
-    left: 13vw;
+    font-size: 20vw;
+    left: 17vw;
     color: red;
-    top: 0;
+    top: -3vw;
 }
 
 #winner-character{
@@ -295,12 +301,28 @@ button.character:hover {
     }
 
     .crown{
+        height: 10vw;
+        width: 10vw;
+        top:-6vw;
+        left: 18vw;
+    }
+
+    .character{
+        height: 10vw;
+        width: 10vw;
+    }
+
+    .display-middle{
+        top: 40%;
+        left: 25%;
+    }
+
+    #gamestart-countdown{
         position: absolute;
-        transform: rotate(45deg);
-        z-index: 2;
-        height: 5vw;
-        width: 5vw;
-        top:-2vw;
-        left: 15vw;
+        z-index: 4;
+        font-size: 40vw;
+        left: 18vw;
+        color: red;
+        top: -15vw;
     }
 }

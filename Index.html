@@ -1,8 +1,14 @@
+<!-- Course: SENG 513 -->
+<!-- Date: Oct 23, 2023 -->
+<!-- Assignment 2 -->
+<!-- Name: Joy Wang -->
+<!-- UCID: 30102919 -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SENG513 A2 Gomoku</title>
+    <title>SENG513 A2 Wuziqi</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="main.js"></script>
     <script src="buttonHandle.js"></script>
@@ -41,8 +47,8 @@
             <button id="character1" class="character" onclick="changeCharacterImage(this)">
                 <img src="Assets/Character1.jpg" class="character circle" alt="User A Character">
             </button>
-            <button class="action-button">withdraw</button>
-            <button class="ready action-button" onclick="setReady(this)">ready</button>
+            <button class="withdraw" onclick="withdrawPiece(this)">withdraw</button>
+            <button class="ready" onclick="setReady(this)">ready</button>
             <button class="select-color" onclick="changeTeam(this)"><img src="Assets/white_cute.png" alt="white piece"></button>
         </div>
         <div id="board-area" onmousemove="getCoords(event)" onclick="takeStep()">
@@ -59,7 +65,7 @@
             <button id="character2" class="character" onclick="changeCharacterImage(this)">
                 <img src="Assets/Character2.jpg" class="character circle" alt="User A Character">
             </button>
-            <button class="withdraw">withdraw</button>
+            <button class="withdraw" onclick="withdrawPiece(this)">withdraw</button>
             <button class="ready" onclick="setReady(this)">ready</button>
             <button class="select-color" onclick="changeTeam(this)"><img src="Assets/black_cute.png" alt="white piece"></button>
         </div>

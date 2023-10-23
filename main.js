@@ -27,7 +27,8 @@ const gameSetting =
 {
     width: 16,
     heigh: 16,
-    mode: 1
+    mode: 1,
+    mobile: window.innerWidth < 680
 }
 
 let gameBoard;
@@ -236,6 +237,16 @@ function setReady(button_element)
             {
                 case "0":
                     cd.innerHTML = "start!";
+                    if(gameSetting.mobile)
+                    {
+                        cd.style.left = "-3vw";
+                    }
+                    else
+                    {
+                        cd.style.left = "5vw";
+
+                    }
+                    console.log(`width: ${gameSetting.mobile}`);
                     break;
                 case "1":
                     cd.style.color= "green";
