@@ -130,6 +130,7 @@ button.character:hover {
 }
 
 .countdown{
+    max-width: 5vw;
     font-family: 'Teko', sans-serif;
     font-size: 5vw;
     color: #001bfe;

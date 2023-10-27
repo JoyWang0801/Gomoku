@@ -2,7 +2,7 @@ const UserA =
 {
     icon: 1,
     team: "white",
-    win: 3,
+    win: 0,
     ready: 0,
     lastMove: {x: 0, y: 0}
 }
@@ -11,7 +11,7 @@ const UserB =
 {
     icon: 2,
     team: "black",
-    win: 2,
+    win: 0,
     ready: 0,
     lastMove: {x: 0, y: 0}
 }
@@ -37,7 +37,7 @@ const gameSetting =
     height: 16,
     mode: 1,
     mobile: window.innerWidth < 680,
-    status: gameStatusEnum.going
+    status: gameStatusEnum.pause
 }
 
 
@@ -59,21 +59,24 @@ let gameBoard;
 //copied and pasted this algorithm to get mouse position from the following link:
 //https://stackoverflow.com/questions/3234256/find-mouse-position-relative-to-element/42111623#42111623
 function getCoords(event) {
-    const rect = document.getElementById("game-board").getBoundingClientRect();
-    let x = event.clientX - rect.left; //x position within the element.
-    let y = event.clientY - rect.top;  //y position within the element.
+    if(gameSetting.status === gameStatusEnum.going)
+    {
+        const rect = document.getElementById("game-board").getBoundingClientRect();
+        let x = event.clientX - rect.left; //x position within the element.
+        let y = event.clientY - rect.top;  //y position within the element.
 
-    let rect_width = rect.right - rect.left;
-    let rect_height = rect.bottom - rect.top;
-    let x_perc = Math.round(x / rect_width * 100);
-    let y_perc = Math.round(y / rect_height * 100);
-    //console.log(`Left: ${x_perc}% ; Top: ${y} or ${y_perc}%.`);
+        let rect_width = rect.right - rect.left;
+        let rect_height = rect.bottom - rect.top;
+        let x_perc = Math.round(x / rect_width * 100);
+        let y_perc = Math.round(y / rect_height * 100);
+        //console.log(`Left: ${x_perc}% ; Top: ${y} or ${y_perc}%.`);
 
-    [userMovement.posX, userMovement.posY] = calculatePiecePosition(x_perc,y_perc);
+        [userMovement.posX, userMovement.posY] = calculatePiecePosition(x_perc,y_perc);
 
-    const selectTarget = document.getElementById("select");
-    selectTarget.style.left = userMovement.posX+"%";
-    selectTarget.style.top = userMovement.posY+"%";
+        const selectTarget = document.getElementById("select");
+        selectTarget.style.left = userMovement.posX+"%";
+        selectTarget.style.top = userMovement.posY+"%";
+    }
 }
 
 function calculatePiecePosition(x, y)
@@ -101,17 +104,13 @@ function calculatePiecePosition(x, y)
 
 function takeStep()
 {
-    if(gameSetting.status === gameStatusEnum.going)
-    {
+    if (gameSetting.status === gameStatusEnum.going) {
         let playerTeam;
         let playerIcon;
-        if(userMovement.current_mover === UserB)
-        {
-             playerTeam = UserB.team;
-             playerIcon = UserB.icon;
-        }
-        else
-        {
+        if (userMovement.current_mover === UserB) {
+            playerTeam = UserB.team;
+            playerIcon = UserB.icon;
+        } else {
             playerTeam = UserA.team;
             playerIcon = UserA.icon;
         }
@@ -121,18 +120,16 @@ function takeStep()
 
         //console.log(gameBoard);
 
-        if(gameBoard[posY][posX] == 0 || gameBoard[posY][posX] == null)
-        {
+        if (gameBoard[posY][posX] == 0 || gameBoard[posY][posX] == null) {
             placePieceUI(playerTeam, posY, posX);
             //console.log(posX, posY)
             gameBoard[posY][posX] = playerTeam === "black" ? 1 : 2;
             userMovement.current_mover.lastMove = {posX, posY}
-            if(checkSurround(posX, posY))
-            {
+            if (checkSurround(posX, posY)) {
+                gameSetting.status = gameStatusEnum.pause;
                 console.log("WIN A ROUND!");
                 userMovement.current_mover.win++;
                 updateGameScore(UserA.win, UserB.win)
-                gameSetting.status = gameStatusEnum.pause;
             }
         }
 
@@ -220,16 +217,16 @@ function continueCheckAlign(x, y, deltaX, deltaY, currentColour)
         {
             console.log("Edge")
         }
-        if(currentColour === gameBoard[newY][newX])
+        else if(currentColour === gameBoard[newY][newX])
         {
             path[4 + i] = 1;
         }
     }
 
     let accumulate = 0;
-    for(let p = 0; p < path.length; p++)
+    for(p of path)
     {
-        if(path[p] === 1)
+        if(p === 1)
         {
             accumulate++;
         }
@@ -338,6 +335,7 @@ function changeTeam(button_element)
         let imgElement = button_element.querySelector('img');
         imgElement.src = newSrc;
     }
+    checkReady();
 }
 
 function setReady(button_element)
@@ -365,8 +363,27 @@ function setReady(button_element)
         UserB.ready = !UserB.ready ;
     }
 
-    if(UserA.ready && UserB.ready)
+    checkReady();
+}
+
+function checkReady()
+{
+
+    let checkStart = () =>
     {
+        let team = UserA.team !== UserB.team;
+        return (UserA.ready && UserB.ready && team);
+    }
+
+    if(checkStart() === true)
+    {
+        for(btn of document.getElementsByClassName("select-color"))
+        {
+            btn.disabled = true;
+        }
+
+        document.getElementsByClassName("display-middle")[0].style.display = "block";
+        gameSetting.status = gameStatusEnum.going;
         const gamestartInterval = setInterval(function() {
             const cd = document.getElementById("gamestart-countdown");
             cd.innerHTML = parseInt(cd.innerHTML) - 1;
@@ -382,7 +399,6 @@ function setReady(button_element)
                     else
                     {
                         cd.style.left = "5vw";
-
                     }
                     break;
                 case "1":
@@ -452,6 +468,7 @@ function clearBoard()
         gameBoard[i] = Array(gameSetting.width).fill(0);
     }
     userMovement.current_mover = UserB.team === "black" ? UserB : UserA;
+    gameSetting.status = gameStatusEnum.going;
 }
 
 function reset()
