@@ -39,6 +39,9 @@ button {
     height: 5vw;
 }
 
+button:hover{
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+}
 
 header {
     display: flex;
@@ -144,6 +147,7 @@ button.character:hover {
     width: 5vw;
     top:7vw;
     left: 4vw;
+    display: none;
 }
 
 #game-board{
