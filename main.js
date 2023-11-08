@@ -4,7 +4,8 @@ const UserA =
     team: "white",
     win: 0,
     ready: 0,
-    lastMove: {x: 0, y: 0}
+    lastMove: {x: 0, y: 0},
+    canWithdraw: true
 }
 
 const UserB =
@@ -13,7 +14,8 @@ const UserB =
     team: "black",
     win: 0,
     ready: 0,
-    lastMove: {x: 0, y: 0}
+    lastMove: {x: 0, y: 0},
+    canWithdraw: true
 }
 
 const userMovement=
@@ -37,7 +39,7 @@ const gameSetting =
     height: 16,
     mode: 1,
     mobile: window.innerWidth < 680,
-    status: gameStatusEnum.pause
+    status: gameStatusEnum.end
 }
 
 
@@ -77,6 +79,8 @@ function getCoords(event) {
         selectTarget.style.left = userMovement.posX+"%";
         selectTarget.style.top = userMovement.posY+"%";
     }
+
+    console.log(gameSetting.status);
 }
 
 function calculatePiecePosition(x, y)
@@ -109,10 +113,8 @@ function takeStep()
         let playerIcon;
         if (userMovement.current_mover === UserB) {
             playerTeam = UserB.team;
-            playerIcon = UserB.icon;
         } else {
             playerTeam = UserA.team;
-            playerIcon = UserA.icon;
         }
 
         let posX = userMovement.indexX - 1;
@@ -127,13 +129,18 @@ function takeStep()
             userMovement.current_mover.lastMove = {posX, posY}
             if (checkSurround(posX, posY)) {
                 gameSetting.status = gameStatusEnum.pause;
-                console.log("WIN A ROUND!");
+                //console.log("WIN A ROUND!");
                 userMovement.current_mover.win++;
                 updateGameScore(UserA.win, UserB.win)
+                console.log(userMovement.current_mover)
+                if(UserA.win + UserB.win === gameSetting.mode)
+                {
+                    gameSetting.status = gameStatusEnum.end;
+                    displayWInner();
+                }
             }
+            switchRole();
         }
-
-        switchRole();
     }
 }
 
@@ -148,6 +155,7 @@ function placePieceUI(playerTeam, x, y)
     element.src = `Assets/${playerTeam}.png`
     className = `${playerTeam}`;
     element.classList.add("piece");
+    element.classList.add(userMovement.current_mover.team);
     let src = document.getElementById("all-pieces");
     element.style.left = `${userMovement.posX - 1}%`;
     element.style.top = `${userMovement.posY - 1}%`;
@@ -468,33 +476,62 @@ function clearBoard()
         gameBoard[i] = Array(gameSetting.width).fill(0);
     }
     userMovement.current_mover = UserB.team === "black" ? UserB : UserA;
-    gameSetting.status = gameStatusEnum.going;
+    console.log("clear board " + gameSetting.status);
+    gameSetting.status =  (gameSetting.status === gameStatusEnum.end) ? gameStatusEnum.end : gameStatusEnum.going;
 }
 
 function reset()
 {
+    gameSetting.status = gameStatusEnum.pause;
     switchRole();
     switchRole();
     document.getElementById("game-score").innerHTML = "0:0";
     clearBoard();
+    document.getElementById("winner").style.display = "none";
+    UserB.win = 0;
+    UserA.win = 0;
 }
 
 function withdrawPiece(button_element)
 {
     const characterId = button_element.parentElement.id
-    if(gameSetting.status == gameStatusEnum.going)
+    if(gameSetting.status === gameStatusEnum.going)
     {
-        if (characterId === "PlayerA") {
+        if (characterId === "PlayerA" && UserA.canWithdraw) {
+            let pieceDiv = document.getElementById("all-pieces");
+            let className = "." + UserA.team.toString();
+            let aMoves = pieceDiv.querySelectorAll(className);
+            console.log(aMoves);
 
+            if (aMoves.length > 0) {
+                pieceDiv.removeChild(aMoves[aMoves.length-1]);
+                gameBoard[UserA.lastMove.x] = 0;
+                gameBoard[UserA.lastMove.y] = 0;
+                UserA.canWithdraw = false;
+            }
         } else if (characterId === "PlayerB") {
+            let pieceDiv = document.getElementById("all-pieces");
+            let className = "." + UserB.team.toString();
+            let bMoves = pieceDiv.querySelectorAll(className);
+            console.log(bMoves);
 
+            if (bMoves.length > 0) {
+                pieceDiv.removeChild(bMoves[bMoves.length-1]);
+                gameBoard[UserB.lastMove.x] = 0;
+                gameBoard[UserB.lastMove.y] = 0;
+                UserB.canWithdraw = false;
+            }
         }
     }
 }
 
 function displayWInner()
 {
-    let winner = UserA.win > UserB.win ? UserA : UserB;
+    let winner = (UserA.win > UserB.win) ? UserA : UserB;
+    let winnerCharacter = document.getElementById("winner-character");
+    let newSrc = `Assets/Character${winner.icon}.jpg`;
+    winnerCharacter.src = newSrc;
+    document.getElementById("winner").style.display = "block";
 }
 
 //TODO - organize algorithm
