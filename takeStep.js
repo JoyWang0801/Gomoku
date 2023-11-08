@@ -1,3 +1,10 @@
+/*
+    Course: SENG 513
+    Date: Nov.7
+    Assignment 3
+    Name: Joy Wang
+    UCID: 30102919
+*/
 function takeStep()
 {
     if (gameSetting.status === gameStatusEnum.going) {
