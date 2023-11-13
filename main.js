@@ -79,7 +79,10 @@ function getCoords(event) {
         let x_perc = Math.round(x / rect_width * 100);
         let y_perc = Math.round(y / rect_height * 100);
 
+
         [userMovement.posX, userMovement.posY] = calculatePiecePosition(x_perc,y_perc);
+        console.log(x_perc, y_perc, userMovement.posX, userMovement.posY);
+
 
         const selectTarget = document.getElementById("select");
         selectTarget.style.left = userMovement.posX+"%";
@@ -100,11 +103,10 @@ function calculatePiecePosition(x, y)
     userMovement.indexX = new_x;
     userMovement.indexY = new_y;
 
-    return_x = new_x * 6 - 3;
-    return_y = new_y * 6 - 3;
+    let return_x = new_x * 6 - 3;
+    let return_y = new_y * 6 - 3;
 
     return [return_x, return_y];
-
 }
 
 function updateGameScore(a, b)
@@ -114,7 +116,6 @@ function updateGameScore(a, b)
 
 function userMovementCountdown()
 {
-    ("In countdown function");
     if(gameSetting.status !== gameStatusEnum.going)
     {
         return;
@@ -360,6 +361,11 @@ function reset()
     document.getElementById("winner").style.display = "none";
     UserB.win = 0;
     UserA.win = 0;
+    let crown = document.querySelector("#PlayerA .crown");
+    crown.style.display = "none";
+    crown = document.querySelector("#PlayerB .crown");
+    crown.style.display = "none";
+
 }
 
 function withdrawPiece(button_element)
