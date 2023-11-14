@@ -53,6 +53,7 @@ const gameSetting =
 
 let gameBoard;
 
+// function to init gameboard 2d list at the beginning of the game
 (function () {
     var gameBoardList = function() {
         let arr = [];
@@ -67,6 +68,7 @@ let gameBoard;
 
 //copied and pasted this algorithm to get mouse position from the following link:
 //https://stackoverflow.com/questions/3234256/find-mouse-position-relative-to-element/42111623#42111623
+// ths function calculates cursor's real time position when cursor hover gameboard area
 function getCoords(event) {
     if(gameSetting.status === gameStatusEnum.going)
     {
@@ -79,16 +81,16 @@ function getCoords(event) {
         let x_perc = Math.round(x / rect_width * 100);
         let y_perc = Math.round(y / rect_height * 100);
 
-
+        // calculate position
         [userMovement.posX, userMovement.posY] = calculatePiecePosition(x_perc,y_perc);
-        console.log(x_perc, y_perc, userMovement.posX, userMovement.posY);
 
-
+        // update 'select' red box's position
         const selectTarget = document.getElementById("select");
         selectTarget.style.left = userMovement.posX+"%";
         selectTarget.style.top = userMovement.posY+"%";
     }
 }
+
 
 function calculatePiecePosition(x, y)
 {
@@ -114,6 +116,7 @@ function updateGameScore(a, b)
     document.getElementById("game-score").innerHTML = `${a}:${b}`
 }
 
+// this function does a 5min countdown, when the current player exceeds time limit, auto switch role to the other player
 function userMovementCountdown()
 {
     if(gameSetting.status !== gameStatusEnum.going)
@@ -170,6 +173,7 @@ function userMovementCountdown()
     }
 }
 
+//switch role
 function switchRole()
 {
     if(gameSetting.status === gameStatusEnum.going)
@@ -187,6 +191,7 @@ function switchRole()
     }
 }
 
+// handles "piece" button onclick event, change to corresponding image when player change team
 function changeTeam(button_element)
 {
     const characterId = button_element.parentElement.id;
@@ -217,6 +222,7 @@ function changeTeam(button_element)
     checkReady();
 }
 
+// set user to ready state
 function setReady(button_element)
 {
     const characterId = button_element.parentElement.id
@@ -245,6 +251,7 @@ function setReady(button_element)
     checkReady();
 }
 
+// check if all users are ready and settings are correct
 function checkReady()
 {
 
@@ -296,6 +303,7 @@ function checkReady()
     }
 }
 
+// change character image for user
 function changeCharacterImage(button_element) {
     // Check the ID of the button that was clicked
     let characterId = button_element.id;
@@ -319,6 +327,7 @@ function changeCharacterImage(button_element) {
     }
 }
 
+// switch between bo1, bo3 and bo5
 function changeGamemode()
 {
     switch (gameSetting.mode)
@@ -338,6 +347,7 @@ function changeGamemode()
     }
 }
 
+// clear gameboard area
 function clearBoard()
 {
     let pieces = document.getElementById("all-pieces")
@@ -351,6 +361,7 @@ function clearBoard()
     gameSetting.status =  (gameSetting.status === gameStatusEnum.end) ? gameStatusEnum.end : gameStatusEnum.going;
 }
 
+// reset game state
 function reset()
 {
     gameSetting.status = gameStatusEnum.pause;
@@ -368,6 +379,7 @@ function reset()
 
 }
 
+// withdraw the currentuser's last movement
 function withdrawPiece(button_element)
 {
     const characterId = button_element.parentElement.id
@@ -380,10 +392,14 @@ function withdrawPiece(button_element)
 
             if (aMoves.length > 0) {
                 pieceDiv.removeChild(aMoves[aMoves.length-1]);
+                console.log("Before:");
+                console.log(gameBoard);
                 gameBoard[UserA.lastMove.x] = 0;
                 gameBoard[UserA.lastMove.y] = 0;
+                UserA.canWithdraw = false;
+                console.log("After:");
+                console.log(gameBoard);
             }
-            UserA.canWithdraw = false;
         } else if (characterId === "PlayerB" && UserB.canWithdraw) {
             let pieceDiv = document.getElementById("all-pieces");
             let className = "." + UserB.team.toString();
@@ -393,12 +409,13 @@ function withdrawPiece(button_element)
                 pieceDiv.removeChild(bMoves[bMoves.length-1]);
                 gameBoard[UserB.lastMove.x] = 0;
                 gameBoard[UserB.lastMove.y] = 0;
+                UserB.canWithdraw = false;
             }
-            UserB.canWithdraw = false;
         }
     }
 }
 
+// game end, display winner's icon'
 function displayWInner()
 {
     let winner = (UserA.win > UserB.win) ? UserA : UserB;

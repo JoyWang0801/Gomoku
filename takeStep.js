@@ -9,24 +9,33 @@ function takeStep()
 {
     if (gameSetting.status === gameStatusEnum.going) {
         let playerTeam;
-        let playerIcon;
+        // get current user piece colour
         if (userMovement.current_mover === UserB) {
             playerTeam = UserB.team;
         } else {
             playerTeam = UserA.team;
         }
 
+        // get index position
         let posX = userMovement.indexX - 1;
         let posY = userMovement.indexY - 1;
 
+        // if the position is empty (valid to put a piece at this spot)
         if (gameBoard[posY][posX] == 0 || gameBoard[posY][posX] == null) {
             placePieceUI(playerTeam, posY, posX);
             gameBoard[posY][posX] = playerTeam === "black" ? 1 : 2;
-            userMovement.current_mover.lastMove = {posX, posY}
+
+            // keep tracking of each user's last movement
+            userMovement.current_mover.lastMove.x = posX;
+            userMovement.current_mover.lastMove.y = posY;
+
+            // check if there are any connecting pieces
             if (checkSurround(posX, posY)) {
                 gameSetting.status = gameStatusEnum.pause;
+                // current winner add point
                 userMovement.current_mover.win++;
                 updateGameScore(UserA.win, UserB.win)
+                // game mode
                 if((UserA.win + UserB.win) === gameSetting.mode)
                 {
                     gameSetting.status = gameStatusEnum.end;
@@ -39,7 +48,8 @@ function takeStep()
     }
 }
 
-function placePieceUI(playerTeam, x, y)
+// this function add corresponding piece img tag to the html file
+function placePieceUI(playerTeam)
 {
     let element = document.createElement("img");
     element.src = `Assets/${playerTeam}.png`
@@ -52,6 +62,8 @@ function placePieceUI(playerTeam, x, y)
     src.appendChild(element);
 }
 
+// check nearby 8 positions to check if there are any connecting 2
+// if so, continue check +- 5 positions
 function checkSurround(x, y)
 {
     let currentColour = userMovement.current_mover.team === "black" ? 1 : 2;
@@ -83,6 +95,7 @@ function checkSurround(x, y)
     return false;
 }
 
+// check +- 5 positions to see if any connecting five
 function continueCheckAlign(x, y, deltaX, deltaY, currentColour)
 {
     let path = Array(9).fill(0);
